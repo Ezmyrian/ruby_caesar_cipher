@@ -1,51 +1,45 @@
-require 'pry-byebug'
 def caesar_cipher(string, cipher_offset)
-  downcase_alphabet = {}
+  alphabet = {}
   for letter in 'a'..'z'
-    downcase_alphabet[letter] = (downcase_alphabet.length + 1)
+    alphabet[letter] = (alphabet.length + 1)
   end
 
-  upcase_alphabet = {}
   for letter in 'A'..'Z' 
-    upcase_alphabet[letter] = (upcase_alphabet.length + 79)
+    alphabet[letter] = (alphabet.length + 75)
   end
 
   string_values = []
   string_array = string.split('')
   string_array.each do |letter|
-    if is_upper?(letter)
-      string_values.push(upcase_alphabet[letter])
-    else 
-      string_values.push(downcase_alphabet[letter])
-    end
+      string_values.push(alphabet[letter])  
   end
 
   final_string_values = []
   final_string_values = string_values.map {|value| value + cipher_offset}
   
   output_numbers_array = []
-  output_numbers_array = final_string_values.each do |value|
-    if value ..0..52
-      if value < 1
-        value + 26
-      elsif value > 26
-        value - 26
-      end
-    else 
-      if value < 79
-        value + 26
-      elsif value > 104
-        value - 26
-      end
+  output_numbers_array = final_string_values.map do |value|
+    if value < 1
+      value + 26
+    elsif value > 26 && value < 53
+      value - 26 
+    elsif value < 101 && value > 52
+      value + 26
+    elsif value > 126
+      value - 26
+    else
+      value
     end
   end
-
-  output_letters_array = []
   
-end
-
-def is_upper?(letter)
-  letter == letter.upcase
+  output_letters_array = []
+  output_letters_array = output_numbers_array.map do |number|
+    alphabet.select {|k,v| v == number}
+  end
+  output_letters_array = output_letters_array.map do |hash|
+    hash.keys
+  end
+  output_letters_array = output_letters_array.flatten.join
 end
 
 caesar_cipher('hello', 5)
