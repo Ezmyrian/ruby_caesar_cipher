@@ -1,3 +1,4 @@
+require 'pry-byebug'
 def caesar_cipher(string, cipher_offset)
   alphabet = {}
   for letter in 'a'..'z'
@@ -9,11 +10,24 @@ def caesar_cipher(string, cipher_offset)
   end
 
   string_values = []
-  string_array = string.split('')
+  string_array = string.split('',-1)
   string_array.each do |letter|
       string_values.push(alphabet[letter])  
   end
 
+  string_values.pop
+  space_index = []
+  string_values.each_with_index do |value, index|
+    if value == nil
+      space_index.push(index)
+    end
+  end
+
+  space_index.reverse!
+  if space_index.length 
+    space_index.each {|index| string_values.delete_at(index)}
+  end
+  
   final_string_values = []
   final_string_values = string_values.map {|value| value + cipher_offset}
   
@@ -40,6 +54,9 @@ def caesar_cipher(string, cipher_offset)
     hash.keys
   end
   output_letters_array = output_letters_array.flatten.join
+  space_index.reverse!.each {|value| output_letters_array.insert(value, ' ')}
+  #binding.pry
+  puts output_letters_array
 end
 
-caesar_cipher('hello', 5)
+caesar_cipher('secret message test', 1)
