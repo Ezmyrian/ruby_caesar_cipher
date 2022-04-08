@@ -1,4 +1,3 @@
-require 'pry-byebug'
 def caesar_cipher(string, cipher_offset)
   alphabet = {}
   for letter in 'a'..'z'
@@ -55,7 +54,7 @@ def caesar_cipher(string, cipher_offset)
   end
   output_letters_array = output_letters_array.flatten.join
   space_index.reverse!.each {|value| output_letters_array.insert(value, ' ')}
-  #binding.pry
+  
   puts output_letters_array
 end
 
